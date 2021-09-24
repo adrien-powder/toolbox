@@ -36,7 +36,7 @@ export default async (
 
   const cfg = {
     mode,
-    entry: resolve(applicationPath, entryDir, 'index.tsx'),
+    entry: entry.main,
     output: {
       publicPath,
       path: outputAssetsPath,
@@ -256,7 +256,7 @@ export default async (
         npm_package_version: JSON.stringify(process.env.npm_package_version),
       }),
       new HtmlWebpackPlugin({
-        template: resolve(applicationPath, entryDir, 'index.ejs'),
+        template: entry.template,
       }),
       new EntryMetaPlugin({
         entry: entryFilePath,

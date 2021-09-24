@@ -8,9 +8,13 @@ import { dirname, join } from 'path'
 
 const tInputEntry = t.intersection([
   t.type({
+    main: t.string,
     title: t.string,
-    titleTemplate: t.string,
     description: t.string,
+    developer: t.type({
+      name: t.string,
+      url: t.string,
+    }),
     application: t.intersection([
       t.type({
         name: t.string,
@@ -22,12 +26,10 @@ const tInputEntry = t.intersection([
     ]),
   }),
   t.partial({
+    titleTemplate: t.string,
+    template: t.string,
     favicon: t.string,
     keywords: t.array(t.string),
-    developer: t.partial({
-      name: t.string,
-      url: t.string,
-    }),
     og: t.partial({
       siteName: t.string,
       title: t.string,
@@ -53,23 +55,24 @@ const decode = (e: any): InputEntry => {
 }
 
 const normalize = (e: InputEntry, cwd: string) => {
-  const favicon = e.favicon || null
+  const favicon = e.favicon ? join(cwd, e.favicon) : null
+  const template = e.template ? join(cwd, e.template) : null
+  const main = e.main ? join(cwd, e.main) : null
 
   return {
+    main,
     title: e.title,
-    titleTemplate: e.titleTemplate,
+    titleTemplate: e.titleTemplate ? e.titleTemplate : `%s ${e.title}`,
+    template,
     description: e.description,
     keywords: e.keywords || [],
-    favicon: favicon ? join(cwd, favicon) : null,
+    favicon,
     application: {
       name: e.application.name,
       description: e.application.description || e.description,
       shortName: e.application.shortName || e.application.name,
     },
-    developer: {
-      name: e.developer?.name || 'Powder',
-      url: e.developer?.url || 'https://www.powder.gg/',
-    },
+    developer: e.developer,
     og: {
       siteName: e.og?.siteName || e.application.name,
       title: e.og?.title || e.title,
