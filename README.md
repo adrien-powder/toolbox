@@ -19,3 +19,9 @@ $> npm run dev
 # emit lib/* files
 $> npm run build
 ```
+
+## Publish Package
+
+```sh
+$> npm publish --access public
+```
