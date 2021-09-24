@@ -9,7 +9,6 @@ import { dirname, join, isAbsolute } from 'path'
 const tConfiguration = t.record(t.string, t.union([
   t.string,
   t.type({
-    name: t.string,
     type: t.string,
     default: t.union([t.undefined, t.string])
   })
