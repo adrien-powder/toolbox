@@ -1,4 +1,4 @@
 module.exports = {
-  ...__CFG_COMPILE_TIME__,
-  ...__CFG_BOOT_TIME__,
+  ...__ENTRY_CONFIGURATION_COMPILE_TIME__,
+  ...__ENTRY_CONFIGURATION_BOOT_TIME__,
 }

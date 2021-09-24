@@ -6,6 +6,18 @@ import { isRight } from 'fp-ts/Either'
 import { PathReporter } from 'io-ts/PathReporter'
 import { dirname, join, isAbsolute } from 'path'
 
+const tConfiguration = t.record(t.string, t.union([
+  t.string,
+  t.type({
+    name: t.string,
+    type: t.string,
+    default: t.union([t.undefined, t.string])
+  })
+]))
+
+type Configuration = t.TypeOf<typeof tConfiguration>
+
+
 const tInputEntry = t.intersection([
   t.type({
     main: t.string,
@@ -26,6 +38,7 @@ const tInputEntry = t.intersection([
     ]),
   }),
   t.partial({
+    configuration: tConfiguration,
     titleTemplate: t.string,
     template: t.string,
     favicon: t.string,
@@ -52,6 +65,24 @@ const decode = (e: any): InputEntry => {
   }
 
   throw new Error(PathReporter.report(result).join(', '))
+}
+
+const decodeConfiguration = (cfg: Configuration) => {
+  return Object.entries(cfg)
+      .map(([name, v]) => {
+        if (typeof v === 'string') {
+          return {
+            name,
+            type: v,
+            default: undefined,
+          }
+        }
+        return {
+          name,
+          type: v.type || 'string',
+          default: v.default,
+        }
+      })
 }
 
 const normalizePath = (p: string | undefined, cwd: string): string | null => (
@@ -86,6 +117,7 @@ const normalize = (e: InputEntry, cwd: string) => {
       type: e.og?.type,
       image: e.og?.image,
     },
+    configuration: e.configuration ? decodeConfiguration(e.configuration) : [],
   }
 }
 

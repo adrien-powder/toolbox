@@ -1,7 +1,6 @@
 import { resolve, join } from 'path'
 import webpack from 'webpack'
 
-import { readSync as readCfgSync } from './parsers/cfg'
 import { Entry, read as readEntry } from './parsers/entry'
 import EntryMetaPlugin from './plugins/entry-meta'
 
@@ -270,7 +269,7 @@ export default async (
     ].filter(Boolean),
   } as webpack.Configuration
 
-  upgradeCfgModule(applicationPath, cfg)
+  upgradeCfgModule(entry, entryFilePath, cfg)
 
   return cfg
 }
@@ -286,31 +285,31 @@ const getFaviconsOptionsFromEntry = (entry: Entry) =>
   })
 
 const upgradeCfgModule = (
-  applicationPath: string,
-  cfg: webpack.Configuration
+  entry: Entry,
+  entryFilePath: string,
+  wp: webpack.Configuration
 ) => {
-  const cfgPath = join(applicationPath, 'cfg.yml')
 
-  const { variables } = readCfgSync(cfgPath)
+  const variables = entry.configuration
 
-  cfg.plugins = [
-    ...(cfg.plugins || []),
+  wp.plugins = [
+    ...(wp.plugins || []),
     new DefinePlugin({
-      __CFG_COMPILE_TIME__: JSON.stringify(
+      __ENTRY_CONFIGURATION_COMPILE_TIME__: JSON.stringify(
         variables.reduce((all, { name, default: d }) => {
           all[name] = process.env[name] || d
           return all
         }, {} as Record<string, string | undefined>)
       ),
-      __CFG_BOOT_TIME__: '((window && window.__CFG_BOOT_TIME__) || {})',
+      __ENTRY_CONFIGURATION_BOOT_TIME__: '((window && window.__ENTRY_CONFIGURATION_BOOT_TIME__) || {})',
     }),
   ]
 
-  cfg.resolve = {
-    ...(cfg.resolve || {}),
+  wp.resolve = {
+    ...(wp.resolve || {}),
     alias: {
-      ...(cfg.resolve?.alias || {}),
-      cfg: join(__dirname, 'cfg.js'),
+      ...(wp.resolve?.alias || {}),
+      [`${entryFilePath}.configuration`]: join(__dirname, 'cfg.js'),
     },
   }
 }

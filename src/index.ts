@@ -106,16 +106,20 @@ program
 program
   .command('configure <directory>')
   .description('generate configuration files')
-  .action((directory: string) => {
-    const applicationPath = isAbsolute(directory)
-      ? directory
-      : join(process.cwd(), directory)
+  .action(async (directory: string) => {
+    const paths = await resolvePathsFromEntryDirectory(directory)
+
+    if (!paths) {
+      process.exit(1)
+    }
+
+    const { applicationPath, entryFilePath } = paths
 
     dotenv.config({
       path: join(applicationPath, '.env'),
     })
 
-    configure({ applicationPath })
+    configure({ applicationPath, entryFilePath })
   })
 
 program.parse(process.argv)
