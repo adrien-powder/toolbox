@@ -1,9 +1,8 @@
 {
   "name": "@adrien-powder/toolbox",
   "version": "1.0.0",
-  "private": true,
   "description": "Toolbox - webpack but easier",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "adrien-powder <adrien@powder.gg>",
   "main": "src/index.ts",
   "bin": {
