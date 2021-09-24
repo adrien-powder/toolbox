@@ -2,7 +2,7 @@ import { outputFile } from 'fs-extra'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 
-import { read as readCfg } from '../lib/cfg'
+import { read as readCfg } from '../parsers/cfg'
 
 interface Options {
   applicationPath: string

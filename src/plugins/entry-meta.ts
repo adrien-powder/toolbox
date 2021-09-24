@@ -5,7 +5,7 @@ import { join, dirname } from 'path'
 import { promisify } from 'util'
 import webpack from 'webpack'
 
-import { Entry, readSync as readEntry } from '../lib/entry'
+import { Entry, readSync as readEntry } from '../parsers/entry'
 
 const imageSize = promisify(imageSizeSync)
 

@@ -1,8 +1,8 @@
 import { resolve, join } from 'path'
 import webpack from 'webpack'
 
-import { readSync as readCfgSync } from './lib/cfg'
-import { Entry, read as readEntry } from './lib/entry'
+import { readSync as readCfgSync } from './parsers/cfg'
+import { Entry, read as readEntry } from './parsers/entry'
 import EntryMetaPlugin from './plugins/entry-meta'
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
