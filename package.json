@@ -41,6 +41,7 @@
     "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "^1.2.1",
     "mozjpeg": "^7.1.0",
+    "pkg-dir": "^5.0.0",
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.27.0",
     "sass-loader": "^10.0.3",
@@ -62,6 +63,7 @@
   "devDependencies": {
     "@types/express": "^4.17.12",
     "@types/fs-extra": "^9.0.4",
+    "@types/pkg-dir": "^2.0.1",
     "@types/webpack-dev-middleware": "^5.0.0",
     "rimfar": "^3.0.2-omega",
     "typescript": "^4.0.5"

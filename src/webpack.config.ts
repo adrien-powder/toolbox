@@ -17,18 +17,18 @@ export default async (
   {
     mode,
     applicationPath,
+    entryFilePath,
     publicPath,
     outputPath,
   }: {
     mode: webpack.Configuration['mode']
     publicPath: string
     applicationPath: string
+    entryFilePath: string
     outputPath?: string
   }
 ): Promise<webpack.Configuration> => {
   const isProduction = mode === 'production'
-  const entryDir = './src/entry'
-  const entryFilePath = resolve(applicationPath, entryDir, 'entry.yml')
   const entry = await readEntry(entryFilePath)
   const outputBuildPath = outputPath || join(applicationPath, 'dist')
   const outputAssetsPath = join(outputBuildPath, 'public')

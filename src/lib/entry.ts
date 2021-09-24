@@ -4,7 +4,7 @@ import YAML from 'yaml'
 import * as t from 'io-ts'
 import { isRight } from 'fp-ts/Either'
 import { PathReporter } from 'io-ts/PathReporter'
-import { dirname, join } from 'path'
+import { dirname, join, isAbsolute } from 'path'
 
 const tInputEntry = t.intersection([
   t.type({
@@ -54,10 +54,14 @@ const decode = (e: any): InputEntry => {
   throw new Error(PathReporter.report(result).join(', '))
 }
 
+const normalizePath = (p: string | undefined, cwd: string): string | null => (
+  p ? (isAbsolute(p) ? p : join(cwd, p)) : null
+)
+
 const normalize = (e: InputEntry, cwd: string) => {
-  const favicon = e.favicon ? join(cwd, e.favicon) : null
-  const template = e.template ? join(cwd, e.template) : null
-  const main = e.main ? join(cwd, e.main) : null
+  const favicon = normalizePath(e.favicon, cwd)
+  const template = normalizePath(e.template, cwd)
+  const main = normalizePath(e.main, cwd)
 
   return {
     main,
