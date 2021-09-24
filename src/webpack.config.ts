@@ -215,9 +215,6 @@ export default async (
         },
       ],
     },
-    resolveLoader: {
-      modules: [resolve(__dirname, '..', 'node_modules')],
-    },
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
       modules: [resolve(applicationPath, 'node_modules')],
