@@ -8,6 +8,13 @@
   "bin": {
     "tbx": "./bin/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrien-powder/toolbox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adrien-powder/toolbox/issues"
+  },
   "scripts": {
     "prepare": "npm run build",
     "build": "rimfar ./lib && tsc --project ./tsconfig.json"
@@ -57,5 +64,9 @@
     "@types/webpack-dev-middleware": "^5.0.0",
     "rimfar": "^3.0.2-omega",
     "typescript": "^4.0.5"
-  }
+  },
+  "files": [
+    "bin/*",
+    "lib/*"
+  ]
 }
