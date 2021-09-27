@@ -3,6 +3,7 @@ import webpack from 'webpack'
 
 import { Entry, read as readEntry } from './parsers/entry'
 import EntryMetaPlugin from './plugins/entry-meta'
+import EntryConfigureModulePlugin from './plugins/EntryConfigureModulePlugin'
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
@@ -10,6 +11,7 @@ const { EnvironmentPlugin, DefinePlugin } = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
 
 export default async (
   env: any,
@@ -249,10 +251,13 @@ export default async (
           filename: '[name].[contenthash:8].css',
           chunkFilename: '[id].chunk.[contenthash:8].css',
         }),
+      new EntryConfigureModulePlugin({
+        entry,
+      }),
       new EnvironmentPlugin({
         NODE_ENV: isProduction ? 'production' : 'development',
         DEBUG: false,
-        npm_package_version: JSON.stringify(process.env.npm_package_version),
+        npm_package_version: process.env.npm_package_version ? JSON.stringify(process.env.npm_package_version) : '<undefined>',
       }),
       new HtmlWebpackPlugin({
         template: entry.template,
@@ -269,8 +274,6 @@ export default async (
     ].filter(Boolean),
   } as webpack.Configuration
 
-  upgradeCfgModule(entry, entryFilePath, cfg)
-
   return cfg
 }
 
@@ -283,33 +286,3 @@ const getFaviconsOptionsFromEntry = (entry: Entry) =>
     developerName: entry.developer.name,
     developerURL: entry.developer.url,
   })
-
-const upgradeCfgModule = (
-  entry: Entry,
-  entryFilePath: string,
-  wp: webpack.Configuration
-) => {
-
-  const variables = entry.configuration
-
-  wp.plugins = [
-    ...(wp.plugins || []),
-    new DefinePlugin({
-      __ENTRY_CONFIGURATION_COMPILE_TIME__: JSON.stringify(
-        variables.reduce((all, { name, default: d }) => {
-          all[name] = process.env[name] || d
-          return all
-        }, {} as Record<string, string | undefined>)
-      ),
-      __ENTRY_CONFIGURATION_BOOT_TIME__: '((window && window.__ENTRY_CONFIGURATION_BOOT_TIME__) || {})',
-    }),
-  ]
-
-  wp.resolve = {
-    ...(wp.resolve || {}),
-    alias: {
-      ...(wp.resolve?.alias || {}),
-      [`${entryFilePath}.configuration`]: join(__dirname, 'cfg.js'),
-    },
-  }
-}

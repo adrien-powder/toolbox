@@ -1,4 +1,0 @@
-module.exports = {
-  ...__ENTRY_CONFIGURATION_COMPILE_TIME__,
-  ...__ENTRY_CONFIGURATION_BOOT_TIME__,
-}
