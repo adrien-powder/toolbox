@@ -16,6 +16,9 @@ const configure = async ({ applicationPath, entryFilePath }: Options) => {
   // typings
   const typingsPath = entryFilePath + '.configuration.d.ts'
   const typingsContent =
+    '/**\n'+
+    ' * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY IT DIRECTLY.\n'+
+    ' */\n\n'+
     variables
       .map(
         ({ name, type }) =>

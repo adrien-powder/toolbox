@@ -23,10 +23,16 @@ class EntryConfigureModulePlugin {
             }, {} as Record<string, string | undefined>)
           )
 
+          const runtimeRequirements = new Set([
+            webpack.RuntimeGlobals.module,
+            // webpack.RuntimeGlobals.exports,
+            // webpack.RuntimeGlobals.require,
+          ])
+
           const m = new RawModule(`module.exports = {
             ...${compileTime},
             ...((window && window.__ENTRY_CONFIGURATION_BOOT_TIME__) || {}),
-          }`, resolveData.request)
+          }`, resolveData.request, resolveData.request, runtimeRequirements)
 
           return m
         }
