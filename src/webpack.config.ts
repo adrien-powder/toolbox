@@ -52,7 +52,7 @@ export default async (
             {
               test: /\.tsx?$/,
               use: {
-                loader: 'ts-loader',
+                loader: require.resolve('ts-loader'),
                 options: {
                   onlyCompileBundledFiles: true,
                 },
@@ -63,7 +63,7 @@ export default async (
               use: [
                 'file-loader',
                 {
-                  loader: 'image-webpack-loader',
+                  loader: require.resolve('image-webpack-loader'),
                   options: {
                     disable: !isProduction,
                   },
@@ -74,7 +74,7 @@ export default async (
               test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
               use: [
                 {
-                  loader: 'file-loader',
+                  loader: require.resolve('file-loader'),
                 },
               ],
             },
@@ -83,14 +83,14 @@ export default async (
               issuer: /\.ejs$/i,
               use: [
                 {
-                  loader: 'file-loader',
+                  loader: require.resolve('file-loader'),
                   options: {
                     name: '[hash].css',
                   },
                 },
                 'extract-loader',
                 {
-                  loader: 'css-loader',
+                  loader: require.resolve('css-loader'),
                   options: {
                     importLoaders: 1,
                   },
@@ -111,7 +111,7 @@ export default async (
                     }
                   : 'style-loader',
                 {
-                  loader: 'css-loader',
+                  loader: require.resolve('css-loader'),
                   options: {
                     importLoaders: 1,
                     modules: isProduction
@@ -131,7 +131,7 @@ export default async (
               issuer: /\.ejs$/i,
               use: [
                 {
-                  loader: 'file-loader',
+                  loader: require.resolve('file-loader'),
                 },
               ],
             },
@@ -147,7 +147,7 @@ export default async (
                     }
                   : 'style-loader',
                 {
-                  loader: 'css-loader',
+                  loader: require.resolve('css-loader'),
                   options: {},
                 },
               ],
@@ -158,7 +158,7 @@ export default async (
               oneOf: [
                 {
                   resourceQuery: /component/,
-                  loader: '@svgr/webpack',
+                  loader: require.resolve('@svgr/webpack'),
                   options: {
                     svgoConfig: {
                       plugins: [{ removeViewBox: false }],
@@ -166,7 +166,7 @@ export default async (
                   },
                 },
                 {
-                  loader: 'file-loader',
+                  loader: require.resolve('file-loader'),
                 },
               ],
             },
@@ -179,7 +179,7 @@ export default async (
                   use: [
                     { loader: 'svg-url-loader' },
                     {
-                      loader: 'svg-colorize-loader',
+                      loader: require.resolve('svg-colorize-loader'),
                       options: { currentColor: 'currentColor' },
                     },
                   ],
@@ -191,7 +191,7 @@ export default async (
               test: /\.svg$/,
               issuer: /\.ejs$/i,
               use: {
-                loader: 'file-loader',
+                loader: require.resolve('file-loader'),
               },
             },
             {
@@ -199,7 +199,7 @@ export default async (
               oneOf: [
                 {
                   resourceQuery: /url/,
-                  loader: 'file-loader',
+                  loader: require.resolve('file-loader'),
                   type: 'javascript/auto',
                 },
                 {
@@ -209,7 +209,7 @@ export default async (
             },
             {
               test: /\.ya?ml$/,
-              loader: 'yaml-loader',
+              loader: require.resolve('yaml-loader'),
               type: 'json',
             },
           ],
