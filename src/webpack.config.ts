@@ -61,7 +61,7 @@ export default async (
             {
               test: /\.(gif|png|jpe?g)$/i,
               use: [
-                'file-loader',
+                require.resolve('file-loader'),
                 {
                   loader: require.resolve('image-webpack-loader'),
                   options: {
@@ -88,15 +88,15 @@ export default async (
                     name: '[hash].css',
                   },
                 },
-                'extract-loader',
+                require.resolve('extract-loader'),
                 {
                   loader: require.resolve('css-loader'),
                   options: {
                     importLoaders: 1,
                   },
                 },
-                'resolve-url-loader',
-                'sass-loader',
+                require.resolve('resolve-url-loader'),
+                require.resolve('sass-loader'),
               ],
             },
             {
@@ -109,7 +109,7 @@ export default async (
                         esModule: false,
                       },
                     }
-                  : 'style-loader',
+                  : require.resolve('style-loader'),
                 {
                   loader: require.resolve('css-loader'),
                   options: {
@@ -122,8 +122,8 @@ export default async (
                         },
                   },
                 },
-                'resolve-url-loader',
-                'sass-loader',
+                require.resolve('resolve-url-loader'),
+                require.resolve('sass-loader'),
               ],
             },
             {
@@ -145,7 +145,7 @@ export default async (
                         esModule: false,
                       },
                     }
-                  : 'style-loader',
+                  : require.resolve('style-loader'),
                 {
                   loader: require.resolve('css-loader'),
                   options: {},
@@ -177,14 +177,14 @@ export default async (
                 {
                   resourceQuery: /currentColor/,
                   use: [
-                    { loader: 'svg-url-loader' },
+                    { loader: require.resolve('svg-url-loader') },
                     {
                       loader: require.resolve('svg-colorize-loader'),
                       options: { currentColor: 'currentColor' },
                     },
                   ],
                 },
-                { loader: 'svg-url-loader' },
+                { loader: require.resolve('svg-url-loader') },
               ],
             },
             {
